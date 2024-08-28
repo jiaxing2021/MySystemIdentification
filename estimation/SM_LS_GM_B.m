@@ -47,6 +47,7 @@ V_GM = R_GM * I;
 R_bar = R_SM;
 V_bar = R_bar*I;
 
+% the variance of R (the estimated parameters)
 Sigma_R2 = [10, 1, 0.1, 0.01];
 
 for i = 1:length(Sigma_R2)
@@ -55,9 +56,6 @@ for i = 1:length(Sigma_R2)
     R_B(i) = R_bar + Sigma_Re * inv(Sigma_V2) * (V-V_bar);
     V_B(:,i) = R_B(i) * I;
 end
-
-
-
 
 
 %% plot
@@ -74,3 +72,36 @@ plot(I, V_B(:,4),'*', "LineWidth",1.6)
 xlabel("current")
 ylabel("voltage")
 legend("data","SM","LS","GM","B1","B2","B3","B4")
+
+%% evaluating
+
+close all
+
+% Sample mean estimation
+SMerror = mean(sqrt((V_SM-V)'*(V_SM-V)));
+% linear squares estimation
+LSerror = mean(sqrt((V_LS-V)'*(V_LS-V)));
+% Gauss-Markov estimation
+GMerror = mean(sqrt((V_GM-V)'*(V_GM-V)));
+% Bayesian estimation
+B1error = mean(sqrt((V_B(:,1)-V)'*(V_B(:,1)-V)));
+B2error = mean(sqrt((V_B(:,2)-V)'*(V_B(:,2)-V)));
+B3error = mean(sqrt((V_B(:,3)-V)'*(V_B(:,3)-V)));
+B4error = mean(sqrt((V_B(:,4)-V)'*(V_B(:,4)-V)));
+
+figure(), 
+hold on, grid on
+plot(1,SMerror,"*")
+plot(2,LSerror,"*")
+plot(3,GMerror,"*")
+plot(4,B1error,"*")
+plot(5,B2error,"*")
+plot(6,B3error,"*")
+plot(7,B4error,"*")
+legend("SMerror","LSerror","GMerror","B1error","B2error","B3error","B4error")
+
+
+
+
+
+

@@ -10,7 +10,11 @@ load AR_data.mat
 figure("Name","y")
 plot(y)
 
-%% linear polinomial model
+%% linear polynomial model
+
+% y = theta(1)*y(i-1) + theta(2)*y(y-2) + theta(3)
+% linear suares estimation: \
+
 Phi = [];
 Y = [];
 for i = 2:length(y)-1
